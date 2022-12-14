@@ -1,0 +1,38 @@
+{% include 'navigation.html' %}
+<h4>{{ thread.thread_title }}</h4>
+<small>Posted at {{ thread.date }}</small>
+<p>{{ thread.thread_text }}</p>
+<hr>
+<h2 class="subtitle">Comments</h2>
+{% for comment in thread.comments.all %}
+
+    <h3>{{ request.user.username }}</h3>
+    <small>{{ comment.date }}</small>
+    <br>
+    <p>{{ comment.comment_text }}</p>
+
+    {% empty %}
+    <div class="notification">
+        <h3>No comments yet!</h3>
+    </div>
+{% endfor %}
+<hr>
+{% if request.user.is_authenticated %}
+<h4 class="subtitle">Add comment</h4>
+<form method="post" action=".">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="field">
+        <div class="control">
+            <button class="button is-success">Submit</button>
+        </div>
+    </div>
+</form>
+{% else %}
+    <div class="d-flex justify-content-center links">
+        Want to comment?
+        <a href="{% url 'login' %}" class="ml-2">Log in</a>
+        or
+        <a href="{% url 'register' %}" class="ml-2">Sign up</a>
+    </div>
+{% endif %}

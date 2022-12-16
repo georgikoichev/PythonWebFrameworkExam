@@ -1,0 +1,13 @@
+{% extends 'thread_details.html' %}
+{% block content %}
+<form method="post" action="{% url 'edit' pk=thread.pk %}">
+    <fieldset>
+        <legend>Edit Thread</legend>
+        <div class="container">
+               {{ form }}
+               <button class="edit-thread" type="submit">Edit Thread</button>
+               {% csrf_token %}
+        </div>
+    </fieldset>
+</form>
+{% endblock %}

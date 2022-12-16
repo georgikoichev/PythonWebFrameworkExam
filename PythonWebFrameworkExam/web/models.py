@@ -10,8 +10,6 @@ class Thread(models.Model):
         verbose_name='Thread Name',
     )
 
-    slug = models.SlugField()
-
     thread_text = models.TextField(
         blank=False,
         null=False,

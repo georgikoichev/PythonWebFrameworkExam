@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from .models import Thread
 
-from .forms import CreateUserForm, CreateCommentForm, CreateThreadForm
+from .forms import CreateUserForm, CreateCommentForm, CreateThreadForm, DeleteThreadForm
 
 
 def home_page(request):
@@ -62,13 +62,53 @@ def dashboard_page(request):
 
 
 def create_thread(request):
-    form = CreateThreadForm()
+    if request.method == 'GET':
+        form = CreateThreadForm()
+    else:
+        form = CreateThreadForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
     context = {'form': form}
+
     return render(request, 'create_thread.html', context)
 
 
-def thread_details(request, slug):
-    thread = Thread.objects.get(slug=slug)
+def edit_thread(request, pk):
+    thread = Thread.objects.filter(pk=pk).get()
+
+    if request.method == 'GET':
+        form = CreateThreadForm(instance=thread)
+    else:
+        form = CreateThreadForm(request.POST, instance=thread)
+        if form.is_valid():
+            form.save()
+            return redirect('thread_details', pk=thread.pk)
+
+    context = {'form': form, 'thread': thread}
+
+    return render(request, 'edit_thread.html', context)
+
+
+def delete_thread(request, pk):
+    thread = Thread.objects.filter(pk=pk).get()
+
+    if request.method == 'GET':
+        form = DeleteThreadForm(instance=thread)
+    else:
+        form = DeleteThreadForm(request.POST, instance=thread)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
+    context = {'form': form, 'thread': thread}
+
+    return render(request, 'delete_thread.html', context)
+
+
+def thread_details(request, pk):
+    thread = Thread.objects.get(pk=pk)
 
     if request.method == 'POST':
         form = CreateCommentForm(request.POST)
@@ -76,7 +116,7 @@ def thread_details(request, slug):
             comment = form.save(commit=False)
             comment.thread = thread
             comment.save()
-            return redirect('thread_details', slug=thread.slug)
+            return redirect('thread_details', pk=thread.pk)
     else:
         form = CreateCommentForm()
 

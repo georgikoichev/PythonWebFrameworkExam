@@ -12,7 +12,7 @@
             <h2 class="title">{{ thread.thread_title }}</h2>
             <small>Posted at {{ thread.date }}</small>
             <p>{{ thread.thread_text }}</p>
-            {#<a href="{% url 'thread_details' thread.slug %}">View Thread</a>#}
+            <a href="{% url 'thread_details' pk=thread.pk %}">View Thread</a>
             </div>
         {% endfor %}
         </div>

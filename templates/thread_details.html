@@ -2,6 +2,8 @@
 <h4>{{ thread.thread_title }}</h4>
 <small>Posted at {{ thread.date }}</small>
 <p>{{ thread.thread_text }}</p>
+<a href="{% url 'edit_thread' pk=thread.pk %}" class="edit">Edit</a>
+<a href="{% url 'delete_thread' pk=thread.pk %}" class="remove">Delete</a>
 <hr>
 <h2 class="subtitle">Comments</h2>
 {% for comment in thread.comments.all %}
@@ -17,7 +19,7 @@
     </div>
 {% endfor %}
 <hr>
-{% if request.user.is_authenticated %}
+{% if request.user.is_authenticated and  %}
 <h4 class="subtitle">Add comment</h4>
 <form method="post" action=".">
     {% csrf_token %}

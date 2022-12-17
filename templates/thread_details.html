@@ -26,8 +26,8 @@
 {% block content %}
 {% endblock %}
 
-<h2 class="subtitle">Comments</h2>
 {% for comment in thread.comments.all %}
+    <h2 class="subtitle">Comments</h2>
     <div class="card">
         <h3>{{ request.user.username }}</h3>
         <small class="text-muted">{{ comment.date }}</small>
@@ -35,8 +35,9 @@
         <p>{{ comment.comment_text }}</p>
     </div>
     {% empty %}
-    <div class="notification">
-        <h3>No comments yet!</h3>
+    <div class="card">
+        <h2 class="subtitle">Comments</h2>
+        <h4>No comments yet!</h4>
     </div>
 {% endfor %}
 {% if request.user.is_authenticated and 'edit' not in request.path and 'delete' not in request.path  %}

@@ -159,7 +159,7 @@ def functions_page(request):
             operation = form.cleaned_data['operation']
             if operation == 'square root':
                 if num < 0:
-                    form.add_error('Invalid Input')
+                    form.add_error('num', 'Invalid Input')
                     return render(request, 'math_functions.html', {'form': form})
                 result = math.sqrt(num)
             elif operation == 'sinus':

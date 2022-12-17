@@ -2,8 +2,12 @@
 <h4>{{ thread.thread_title }}</h4>
 <small>Posted at {{ thread.date }}</small>
 <p>{{ thread.thread_text }}</p>
+{% if request.user.is_authenticated and 'edit' not in request.path and 'delete' not in request.path %}
 <a href="{% url 'edit_thread' pk=thread.pk %}" class="edit">Edit</a>
 <a href="{% url 'delete_thread' pk=thread.pk %}" class="remove">Delete</a>
+{% endif %}
+{% block content %}
+{% endblock %}
 <hr>
 <h2 class="subtitle">Comments</h2>
 {% for comment in thread.comments.all %}
@@ -18,8 +22,7 @@
         <h3>No comments yet!</h3>
     </div>
 {% endfor %}
-<hr>
-{% if request.user.is_authenticated and  %}
+{% if request.user.is_authenticated and 'edit' not in request.path and 'delete' not in request.path  %}
 <h4 class="subtitle">Add comment</h4>
 <form method="post" action=".">
     {% csrf_token %}
@@ -30,7 +33,7 @@
         </div>
     </div>
 </form>
-{% else %}
+{% elif 'edit' not in request.path and 'delete' not in request.path %}
     <div class="d-flex justify-content-center links">
         Want to comment?
         <a href="{% url 'login' %}" class="ml-2">Log in</a>

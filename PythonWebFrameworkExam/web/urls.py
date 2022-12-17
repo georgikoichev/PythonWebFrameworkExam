@@ -10,6 +10,7 @@ urlpatterns = [
     path('details/<int:pk>/', views.thread_details, name='thread_details'),
     path('create', views.create_thread, name='create_thread'),
     path('edit/<int:pk>/', views.edit_thread, name='edit_thread'),
-    path('delete/<int:pk>', views.delete_thread, name='delete_thread'),
+    path('delete/<int:pk>/', views.delete_thread, name='delete_thread'),
     path('calculator', views.calculator_page, name='calculator'),
+    path('functions', views.functions_page, name='functions'),
 ]

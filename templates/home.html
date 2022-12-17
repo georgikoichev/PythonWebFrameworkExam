@@ -2,6 +2,10 @@
 <body>
     <p>View dashboard:</p>
     <a href="{% url 'dashboard' %}" class="dashboard">Dashboard</a>
+    {% if request.user.is_authenticated %}
     <p>Use calculator:</p>
     <a href="{% url 'calculator' %}" class="calculator">Calculator</a>
+    <p>Use functions:</p>
+    <a href="{% url 'functions' %}" class="functions">Functions</a>
+    {% endif %}
 </body>

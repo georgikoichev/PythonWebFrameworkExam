@@ -1,5 +1,9 @@
-from django.core import validators
+from django.contrib.auth.models import User
 from django.db import models
+
+
+class Profile(User):
+    pass
 
 
 class Thread(models.Model):
@@ -28,3 +32,16 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['date']
+
+
+class Calculation(models.Model):
+    num1 = models.FloatField()
+    num2 = models.FloatField()
+    operation = models.CharField(max_length=20)
+    result = models.FloatField()
+
+
+class MathFunctions(models.Model):
+    num = models.FloatField()
+    operation = models.CharField(max_length=20)
+    result = models.FloatField()

@@ -1,12 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from .models import Comment, Thread
+from .models import Comment, Thread, Profile
+from .validators import validate_nonzero, validate_non_negative
 
 
 class CreateUserForm(UserCreationForm):
     class Meta:
-        model = User
+        model = Profile
         fields = ['username', 'email', 'password1', 'password2']
 
 
@@ -24,27 +24,34 @@ class CreateThreadForm(forms.ModelForm):
                 attrs={
                     'placeholder': 'Description',
                 },
-            )
+            ),
         }
-
-
-class DeleteThreadForm(CreateThreadForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__set_disabled_fields()
-
-    def save(self, commit=True):
-        if commit:
-            self.instance.delete()
-
-        return self.instance
-
-    def __set_disabled_fields(self):
-        for _, field in self.fields.items():
-            field.widget.attrs['readonly'] = 'readonly'
 
 
 class CreateCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['comment_text']
+
+
+class CalculatorForm(forms.Form):
+    num1 = forms.FloatField()
+    num2 = forms.FloatField(validators=[validate_nonzero], required=True)
+    operation = forms.ChoiceField(choices=[
+        ('add', 'Add'),
+        ('subtract', 'Subtract'),
+        ('multiply', 'Multiply'),
+        ('divide', 'Divide'),
+        ('power', 'Power'),
+    ])
+
+
+class MathFunctionsForm(forms.Form):
+    num = forms.FloatField(validators=[validate_non_negative], required=True)
+    operation = forms.ChoiceField(choices=[
+        ('square root', 'Square root'),
+        ('sinus', 'Sinus'),
+        ('cosine', 'Cosine'),
+        ('tangent', 'Tangent'),
+        ('cotangent', 'Cotangent'),
+    ])

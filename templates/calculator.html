@@ -1,1 +1,27 @@
 {% include 'navigation.html' %}
+<h1>Simple Calculator</h1>
+{% if result %}
+    <strong><p>Result: {{ result }}</p></strong>
+{% endif %}
+{% if form.errors %}
+    <strong><p>Invalid Input</p></strong>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <label for="num1">Number 1:</label><br>
+    <input type="number" id="num1" name="num1"><br>
+    <label for="num2">Number 2:</label><br>
+    <input type="number" id="num2" name="num2"><br>
+    <label for="operation">Operation:</label><br>
+    <input type="radio" id="add" name="operation" value="add">
+    <label for="add">Add</label><br>
+    <input type="radio" id="subtract" name="operation" value="subtract">
+    <label for="subtract">Subtract</label><br>
+    <input type="radio" id="multiply" name="operation" value="multiply">
+    <label for="multiply">Multiply</label><br>
+    <input type="radio" id="divide" name="operation" value="divide">
+    <label for="divide">Divide</label><br>
+    <input type="radio" id="power" name="operation" value="power">
+    <label for="divide">Power</label><br>
+    <input type="submit" value="Calculate">
+</form>

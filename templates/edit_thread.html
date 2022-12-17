@@ -1,6 +1,6 @@
 {% extends 'thread_details.html' %}
 {% block content %}
-<form method="post" action="{% url 'edit' pk=thread.pk %}">
+<form method="post" action="{% url 'edit_thread' pk=thread.pk %}">
     <fieldset>
         <legend>Edit Thread</legend>
         <div class="container">

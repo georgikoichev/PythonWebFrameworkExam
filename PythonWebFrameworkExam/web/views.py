@@ -102,7 +102,7 @@ def delete_thread(request, pk):
     thread = Thread.objects.get(pk=pk)
     if request.method == 'POST':
         thread.delete()
-        return redirect('home')
+        return redirect('dashboard')
     else:
         return render(request, 'delete_thread.html', {'thread': thread})
 

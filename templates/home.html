@@ -1,11 +1,49 @@
 {% include 'navigation.html' %}
+{% load static %}
+<head>
+    <title>Home</title>
+    <style>
+        .box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px;
+            min-height: 300px;
+        }
+    </style>
+</head>
 <body>
-    <p>View dashboard:</p>
-    <a href="{% url 'dashboard' %}" class="dashboard">Dashboard</a>
-    {% if request.user.is_authenticated %}
-    <p>Use calculator:</p>
-    <a href="{% url 'calculator' %}" class="calculator">Calculator</a>
-    <p>Use functions:</p>
-    <a href="{% url 'functions' %}" class="functions">Functions</a>
-    {% endif %}
+    <div class="row">
+      <div class="col-sm-4">
+          <div class="box">
+            <h3>Dashboard</h3>
+            <p>
+                The place to go where you want to ask your math related questions by creating a thread and waiting for others to reply or to answer someone else's questions.
+                Here you can also share your math problems to challenge others or to get someone to solve them for you.
+            </p>
+            <a href="{% url 'dashboard' %}" class="btn btn-warning">Dashboard</a>
+            </div>
+          </div>
+          {% if request.user.is_authenticated %}
+          <div class="col-sm-4">
+          <div class="box">
+            <h3>Calculator</h3>
+            <p>
+                When you need some assistance with solving math problems or you just want to save time.
+                Here is a calculator that can help you with some simple operations e.g. addition, subtraction etc.
+            </p>
+            <a href="{% url 'calculator' %}" class="btn btn-warning">Calculator</a>
+          </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="box">
+                <h3>Functions</h3>
+                <p>
+                    Here is the tool for more complicated operations like trigonometric functions etc.
+                </p>
+                <a href="{% url 'functions' %}" class="btn btn-warning">Functions</a>
+            </div>
+          </div>
+          {% endif %}
+      </div>
 </body>

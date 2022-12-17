@@ -1,43 +1,62 @@
 {% include 'navigation.html' %}
-<h4>{{ thread.thread_title }}</h4>
-<small>Posted at {{ thread.date }}</small>
-<p>{{ thread.thread_text }}</p>
-{% if request.user.is_authenticated and 'edit' not in request.path and 'delete' not in request.path %}
-<a href="{% url 'edit_thread' pk=thread.pk %}" class="edit">Edit</a>
-<a href="{% url 'delete_thread' pk=thread.pk %}" class="remove">Delete</a>
-{% endif %}
+<body>
+    <style>
+        .box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px;
+        }
+        .card {
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</body>
+<div class="box">
+    <h4>{{ thread.thread_title }}</h4>
+    <small class="text-muted">Posted at {{ thread.date }}</small>
+    <p>{{ thread.thread_text }}</p>
+    {% if request.user.is_authenticated and 'edit' not in request.path and 'delete' not in request.path %}
+        <a href="{% url 'edit_thread' pk=thread.pk %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'delete_thread' pk=thread.pk %}" class="btn btn-warning">Delete</a>
+    {% endif %}
+</div>
 {% block content %}
 {% endblock %}
-<hr>
+
 <h2 class="subtitle">Comments</h2>
 {% for comment in thread.comments.all %}
-
-    <h3>{{ request.user.username }}</h3>
-    <small>{{ comment.date }}</small>
-    <br>
-    <p>{{ comment.comment_text }}</p>
-
+    <div class="card">
+        <h3>{{ request.user.username }}</h3>
+        <small class="text-muted">{{ comment.date }}</small>
+        <br>
+        <p>{{ comment.comment_text }}</p>
+    </div>
     {% empty %}
     <div class="notification">
         <h3>No comments yet!</h3>
     </div>
 {% endfor %}
 {% if request.user.is_authenticated and 'edit' not in request.path and 'delete' not in request.path  %}
-<h4 class="subtitle">Add comment</h4>
-<form method="post" action=".">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="field">
-        <div class="control">
-            <button class="button is-success">Submit</button>
-        </div>
+    <div class="card">
+        <h5 class="subtitle">Add comment</h5>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ form.comment_text }}
+            <div class="field">
+                <div class="control">
+                    <button class="btn btn-warning">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
 {% elif 'edit' not in request.path and 'delete' not in request.path %}
     <div class="d-flex justify-content-center links">
-        Want to comment?
+        Want to comment?&nbsp;
         <a href="{% url 'login' %}" class="ml-2">Log in</a>
-        or
+        &nbsp;or&nbsp;
         <a href="{% url 'register' %}" class="ml-2">Sign up</a>
     </div>
 {% endif %}

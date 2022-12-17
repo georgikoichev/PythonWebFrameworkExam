@@ -4,9 +4,10 @@
     <fieldset>
         <legend>Edit Thread</legend>
         <div class="container">
-               {{ form }}
-               <button class="edit-thread" type="submit">Edit Thread</button>
-               {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="btn btn-warning" value="Save Changes">
+            <a href="{% url 'thread_details' pk=thread.pk %}" class="btn btn-warning">Undo</a>
+            {% csrf_token %}
         </div>
     </fieldset>
 </form>
